@@ -1,0 +1,3 @@
+yfinance==1.8.0
+pandas==2.2.3
+supabase==2.34.1

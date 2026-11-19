@@ -1,0 +1,26 @@
+name: Daily NSE Stock Screener ETL
+
+on:
+  schedule:
+    # Runs at 10:30 AM UTC (4:00 PM IST), Monday to Friday
+    - cron: '30 10 * * 1-5'
+  workflow_dispatch: # Allows manual trigger anytime
+
+jobs:
+  screen-stocks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Stock ETL & Screener
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: python main.py
